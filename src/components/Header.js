@@ -11,6 +11,9 @@ export default function Header() {
                     <li>
                         <Link to="/tasks">Tasks</Link>
                     </li>
+                    <li>
+                        <Link to="/project">Proejct</Link>
+                    </li>
                 </ul>
             </header>
         </div>
