@@ -1,73 +1,79 @@
-import gsap from "gsap/all";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import gsap, { TextPlugin } from "gsap/all";
 import { useEffect, useRef } from "react";
 
-export default function Page() {
-  const ref1 = useRef();
-  const ref2 = useRef();
-  const ref3 = useRef();
-  const ref4 = useRef();
-  const ref5 = useRef();
-  const ref6 = useRef();
-  const ref7 = useRef();
-  const lastRef = useRef();
+export default function Page({index}) {
+  const ref = useRef();
+  const cursorRef = useRef();
+  const scrollRef = useRef();
+  const pageRef = useRef();
 
-  const commonOption = {
-    x: -30,
-    opacity: 0,
-    duration: 2,
-  }
+  const words = [
+    "안녕하세요.", 
+    "개발자 이원재입니다.", 
+    "이 사이트는 저의 개인 사이트이며",
+    "React로 작성되었습니다.",
+    "현재는 FRONT END만으로 구성되어 있으며",
+    "React, SCSS, GSAP 등의 공부용으로 작성하였습니다.",
+    "잘 부탁드립니다."
+  ];
 
-  function* option() {
-    yield commonOption;
-    yield commonOption;
-    yield commonOption;
-    yield commonOption;
-    yield commonOption;
-    yield commonOption;
-    yield commonOption;
-    yield commonOption;
-    yield commonOption;
-    yield commonOption;
-    yield commonOption;
-  }
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(TextPlugin);
   useEffect(() => {
-    gsap.timeline(
-      {
+    // 커서 이벤트
+    gsap.to(cursorRef.current, {
+      opacity: 0, 
+      ease: "power2.inOut", 
+      repeat: -1
+    });
+    console.log(index, index * pageRef.current.offsetHeight, (index + 1) * pageRef.current.offsetHeight);
+    // 텍스트 이벤트
+    let masterTl = gsap.timeline({
       scrollTrigger: {
-          trigger: ".page",
-          toggleActions: "restart none restart none",
-          // pin: true,
-          markers: true,
-          start: "top center",
-          end: "bottom center",
-          // scrub: 1,
-        },
-      }
-      )
-      .from(ref1.current, option().next().value)
-      .from(ref2.current, option().next().value)
-      .from(ref3.current, option().next().value)
-      .from(ref4.current, option().next().value)
-      .from(ref5.current, option().next().value)
-      .from(ref6.current, option().next().value)
-      .from(ref7.current, option().next().value)
-      .to(lastRef.current, {
-        x: -30,
-        opacity: 0,
-        duration: 2
+        trigger: pageRef.current,
+        toggleActions: "restart reset restart reset",
+        markers: true,
+        
+        // start: index * pageRef.current.offsetHeight,
+        // end: (index + 1) * pageRef.current.offsetHeight,
+      },
+    });
+    words.forEach((word, i) => {
+      let tl = gsap.timeline({
+        repeat: 1, 
+        yoyo: true, 
+        repeatDelay: .5
       });
+      
+      tl.to(ref.current, {
+        duration: 0.5 + word.length * .05, 
+        text: word,
+      });
+
+      masterTl.add(tl);
+      if(words.length === i + 1) {
+        // 스크롤 이벤트
+        masterTl.add(
+          gsap.timeline()
+          .to(scrollRef.current, {
+            delay: .5,
+            opacity: 1,
+            duration: 1,
+            repeat: -1
+          })
+        );
+      }
+
+
+      
+    })
   }, [])
   return (
-    <div className="page"style={{backgroundColor: "#aaa"}}>
-      <div ref={lastRef} > 
-        <h2 ref={ref1} className="test">안녕하세요.</h2>
-        <h2 ref={ref2}>개발자 이원재입니다.</h2>
-        <h2 ref={ref3}>뭐 쓰지...</h2>
-        <h2 ref={ref4}>쓸게 없어요 ㅠㅠ</h2>
-        <h2 ref={ref7}>그럼, 안녕~</h2>
-      </div>
+    <div ref={pageRef} style={{backgroundColor: "#aaa"}}>
+      <h1>
+        <span ref={ref}></span>
+        <span ref={cursorRef}>_</span>
+      </h1>
+      <div className="scroll-down" ref={scrollRef}>Scroll down</div>
     </div>
   )
 }
