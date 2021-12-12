@@ -1,7 +1,7 @@
 import gsap, { TextPlugin } from "gsap/all";
 import { useEffect, useRef } from "react";
 
-export default function Page({index}) {
+export default function GsapPage({index}) {
   const ref = useRef();
   const cursorRef = useRef();
   const scrollRef = useRef();
@@ -12,8 +12,7 @@ export default function Page({index}) {
     "개발자 이원재입니다.", 
     "이 사이트는 저의 개인 사이트이며",
     "React로 작성되었습니다.",
-    "현재는 FRONT END만으로 구성되어 있으며",
-    "React, SCSS, GSAP 등의 공부용으로 작성하였습니다.",
+    "현재는 FRONT END만으로 구성되어 있습니다.",
     "잘 부탁드립니다."
   ];
 
@@ -62,18 +61,14 @@ export default function Page({index}) {
           })
         );
       }
-
-
-      
     })
   }, [])
   return (
-    <div ref={pageRef} style={{backgroundColor: "#aaa"}}>
+    <div ref={pageRef} className="gsap-wrap">
       <h1>
         <span ref={ref}></span>
         <span ref={cursorRef}>_</span>
       </h1>
-      <div className="scroll-down" ref={scrollRef}>Scroll down</div>
     </div>
   )
 }
