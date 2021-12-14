@@ -1,16 +1,20 @@
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-export default function Headers() {
+export default function Headers({darkMode, setdarkMode}) {
   return (
-    <Navbar bg="dark" variant="dark">
-      <Container>
-        <Navbar.Brand href="/gsap">Navbar</Navbar.Brand>
-        <Nav className="me-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#features">Features</Nav.Link>
-          <Nav.Link href="#pricing">Pricing</Nav.Link>
+    <Navbar>
+        <Nav defaultActiveKey="/" >
+          <Nav.Link eventKey="/" as={Link} to="/">Home</Nav.Link>
+          <Nav.Link eventKey="board" as={Link} to="/board">Board</Nav.Link>
+          <Nav.Link eventKey="test" as={Link} to="/test">Test</Nav.Link>
         </Nav>
-      </Container>
+        <Navbar.Collapse className="justify-content-end">
+          <input type="checkbox" 
+            onChange={(e) => setdarkMode(e.target.checked)}
+            defaultChecked={darkMode}
+            />
+        </Navbar.Collapse>
     </Navbar>
   )
 }
