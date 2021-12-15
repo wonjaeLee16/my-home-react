@@ -1,12 +1,23 @@
 html, body, #root{
   height: 100vh;
+  overflow: hidden;
+  
+  @media (min-width: 576px) {
+    font-size: 1rem;
+  }
+  @media (min-width: 992px) {
+    font-size: 1.1rem;
+  }
+  @media (min-width: 1400px) {
+    font-size: 1.2rem;
+  }
 }
-
 
 .wrap {
   height: 100%;
   transition: .5s, height 0s;
   position: relative;
+  overflow: auto;
 
   .navbar {
     transition-duration: .5s;
@@ -54,20 +65,53 @@ html, body, #root{
 }
 
 .card {
-  border: 1px solid #eee;
+  border: 1px solid #aaa;
   border-radius: 5px;
   background-color: transparent;
   margin-bottom: 1.5rem;
   transition: height .5s, width .5s;
-  width: 200px;
-  height: 200px;
+  display: flex;
+  width: 250px;
+  height: 250px;
+  box-sizing: border-box;
+  cursor: pointer;
 
   @media (min-width: 992px) {
     width: 300px;
     height: 300px;
   }
   @media (min-width: 1400px) {
-    width: 400px;
-    height: 400px;
+    width: 350px;
+    height: 350px;
   }
+
+  > img {
+    height: 70%;
+    width: 100%;
+    border: none;
+    outline: none;
+    background-position: center;
+    background-size: auto;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+  }
+
+  > div {
+    height: 30%;
+    padding: 15px;
+
+    .title {
+      font-size: 1.2em;
+      margin: 0;
+    }
+    
+    > pre {
+      text-indent: 1rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+
+
 }
